@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pillioner Mission</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(180deg, #3e0066, #2a0047);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .donate-btn {
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      color: #3e0066;
+      font-weight: bold;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+    }
+    .donate-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-size: 0.95rem;
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      background: #4d007a;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+    }
+
+    .info-section {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .info-box {
+      width: 30%;
+      min-width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .info-box h3 {
+      color: #ffcc66;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    .wallet-box {
+      border: 1px solid #ffcc66;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px auto 0;
+      max-width: 400px;
+      text-align: left;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .wallet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #ffcc66;
+    }
+
+    .copy-btn {
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      border: none;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: #3e0066;
+      transition: transform 0.2s;
+    }
+    .copy-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .wallet-address {
+      word-break: break-all;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .wallet-box img {
+      width: 100px;
+      display: block;
+      margin: 10px auto 0;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .message.success { color: #9cff9c; }
+    .message.error { color: #ff9c9c; }
+  </style>
+</head>
+<body>
+  <!-- Dodavanje logo slike -->
+  <img src="pillioner-logo.png" alt="Logo" style="width:300px; max-width:50%; margin: 0 auto 20px; display: block;">
+  <h1>Join the Pillioner Mission 🚀</h1>
+  <p class="subtitle">Donate just 1 Pi and follow the journey to 1,000,000 Pi</p>
+
+  <button class="donate-btn">Donate 1 Pi Now</button>
+
+  <div class="stats">
+    <span id="current-amount">Current: 0 Pi</span>
+    <span>Goal: 1.000.000 Pi</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-fill"></div>
+  </div>
+
+  <p style="font-size:0.85rem; margin-bottom: 20px;">The counter refreshes daily</p>
+
+  <div class="info-section">
+    <div class="info-box">
+      <div style="font-size:2rem;">⚖️</div>
+      <h3>Why exactly 1 Pi?</h3>
+      <p>A small contribution from everyone can create a huge result.</p>
+    </div>
+    <div class="info-box">
+      <div style="font-size:2rem;">⭐</div>
+      <h3>What does it mean to be a Pillioner?</h3>
+      <p>A person who contributed to the goal of one million Pi</p>
+    </div>
+    <div class="info-box">
+      <div style="font-size:2rem;">📈</div>
+      <h3>Follow community growth</h3>
+      <p>Daily goal updates.</p>
+    </div>
+  </div>
+
+  <div class="wallet-box">
+    <div class="wallet-header">
+      <span>Wallet address</span>
+      <button class="copy-btn" onclick="copyAddress()">Copy</button>
+    </div>
+    <div id="wallet-address" class="wallet-address">GAL7X7QK7YZ5UCHDOOCWDJVIY37XCOTZKMHKQLUNQM7UEY3PXDMR652Z </div>
+    <p style="font-size:0.9rem;">Scan the code or copy the address and donate from your Pi Wallet.</p>
+    <img src="qr-code.png" alt="QR kod" style="width:400px; max-width:60%; margin: 0 auto 20px; display: block;">
+    <div id="copy-message" class="message"></div>
+  </div>
+
+  <script>
+    const current = 12345;
+    const goal = 1000000;
+
+    window.addEventListener("load", () => {
+      const fill = document.querySelector(".progress-fill");
+      const currentText = document.getElementById("current-amount");
+      let progress = 0;
+      let amount = 0;
+      const targetProgress = (current / goal) * 100;
+      const duration = 2000; // 2 sekunde
+      const fps = 60;
+      const steps = duration / (1000 / fps);
+      let step = 0;
+
+      const animate = setInterval(() => {
+        step++;
+        progress = (targetProgress / steps) * step;
+        amount = Math.floor((current / steps) * step);
+
+        if (progress >= targetProgress) {
+          progress = targetProgress;
+          amount = current;
+          clearInterval(animate);
+        }
+
+        fill.style.width = progress + "%";
+        currentText.textContent = `Current: ${amount.toLocaleString()} Pi`;
+      }, 1000 / fps);
+    });
+
+    function copyAddress() {
+      const address = document.getElementById('wallet-address').textContent;
+      navigator.clipboard.writeText(address).then(() => {
+        const msg = document.getElementById('copy-message');
+        msg.textContent = 'Address copied successfully!';
+        msg.className = 'message success';
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+      }).catch(() => {
+        const msg = document.getElementById('copy-message');
+        msg.textContent = 'Error while copying!';
+        msg.className = 'message error';
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
