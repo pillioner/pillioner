@@ -256,7 +256,7 @@
     <div class="info-box">
       <div style="font-size:2rem;">📈</div>
       <h3>Follow community growth</h3>
-      <p>Watch 1,000,000 Pi come together</p>
+      <p>Watch 1.000.000 Pi come together</p>
     </div>
   </div>
 
@@ -295,10 +295,9 @@
   </footer>
 
   <script>
-    const current = 3;
     const goal = 1000000;
 
-    window.addEventListener("load", () => {
+    function startAnimation(current) {
       const fill = document.querySelector(".progress-fill");
       const currentText = document.getElementById("current-amount");
 
@@ -312,22 +311,30 @@
         let amount;
 
         if (step <= steps / 2) {
-          // 0 -> goal
           amount = Math.floor((goal / (steps/2)) * step);
         } else {
-          // goal -> current
           const stepBack = step - steps/2;
           amount = Math.floor(goal - ((goal - current) / (steps/2)) * stepBack);
         }
 
-        // Progress bar track curernt amount
         const progress = (amount / goal) * 100;
-
         fill.style.width = progress + "%";
         currentText.innerHTML = `<strong>Current: ${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} Pi</strong>`;
 
         if (step >= steps) clearInterval(animate);
       }, 1000 / fps);
+    }
+
+    // === DYNAMIC CURRENT VALUE FROM JSON WITH CACHE-BUSTER ===
+    window.addEventListener("load", () => {
+      const cacheBuster = Date.now();
+      fetch(`data/today.json?v=${cacheBuster}`)
+        .then(res => res.json())
+        .then(data => {
+          const current = Number(data.current);
+          startAnimation(current);
+        })
+        .catch(() => startAnimation(0));
     });
 
     function copyAddress(event) {
