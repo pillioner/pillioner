@@ -49,6 +49,7 @@
       justify-content: space-between;
       margin: 10px 0;
       font-size: 0.95rem;
+      font-weight: bold;
     }
 
     .progress {
@@ -68,14 +69,14 @@
     .info-section {
       display: flex;
       justify-content: space-around;
-      margin: 20px 0;
+      margin: 5px 0;
       flex-wrap: wrap;
     }
 
     .info-box {
       width: 30%;
       min-width: 100px;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
     }
 
     .info-box h3 {
@@ -88,39 +89,40 @@
       border: 1px solid #ffcc66;
       border-radius: 12px;
       padding: 15px;
-      margin: 20px auto 0;
+      margin: 5px auto 0;
       max-width: 400px;
-      text-align: left;
+      text-align: center;
       background: rgba(0,0,0,0.2);
-    }
-
-    .wallet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #ffcc66;
-    }
-
-    .copy-btn {
-      background: linear-gradient(90deg, #ffcc66, #ffb300);
-      border: none;
-      border-radius: 8px;
-      padding: 5px 12px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      color: #3e0066;
-      transition: transform 0.2s;
-    }
-    .copy-btn:hover {
-      transform: scale(1.05);
     }
 
     .wallet-address {
       word-break: break-all;
       font-size: 0.9rem;
       margin-bottom: 10px;
+      font-family: monospace;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #ffcc66;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .wallet-address:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .copy-btn {
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #3e0066;
+      transition: transform 0.2s;
+      font-weight: bold;
+    }
+    .copy-btn:hover {
+      transform: scale(1.05);
     }
 
     .wallet-box img {
@@ -138,95 +140,201 @@
 
     .message.success { color: #9cff9c; }
     .message.error { color: #ff9c9c; }
+
+    .highlight {
+      box-shadow: 0 0 20px 5px #ffcc66;
+      transition: box-shadow 0.5s ease-in-out;
+    }
+
+    /* === POPUP STYLE === */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .popup-box {
+      background: rgba(30, 0, 50, 0.95);
+      border: 2px solid #ffcc66;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 450px;
+      color: white;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      box-shadow: 0 0 25px rgba(255,204,102,0.6);
+      animation: popupFade 0.3s ease;
+    }
+
+    .popup-box h2 {
+      text-align: center;
+      font-size: 1.2rem;
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .popup-box button {
+      display: block;
+      margin: 15px auto 0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #ffcc66, #ffb300);
+      color: #3e0066;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .popup-box button:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes popupFade {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* === FOOTER STYLE === */
+    .footer {
+      margin-top: 40px;
+      padding: 15px 0;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid rgba(255, 204, 102, 0.3);
+    }
+
+    .footer a {
+      color: #ffcc66;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Dodavanje logo slike -->
   <img src="pillioner-logo.png" alt="Logo" style="width:300px; max-width:50%; margin: 0 auto 20px; display: block;">
-  <h1>Join the Pillioner Mission 🚀</h1>
-  <p class="subtitle">Donate just 1 Pi and follow the journey to 1,000,000 Pi</p>
+  <h1>Join the Pillioner Mission</h1>
+  <p class="subtitle">Donate just 1 Pi (or more 🙏) and follow the journey to 1.000.000 Pi</p>
 
-  <button class="donate-btn">Donate 1 Pi Now</button>
+  <button class="donate-btn" onclick="scrollToWallet()">
+    <b>Donate 1 Pi (or more) Now</b>
+  </button>
 
   <div class="stats">
-    <span id="current-amount">Current: 0 Pi</span>
-    <span>Goal: 1.000.000 Pi</span>
+    <span id="current-amount"><strong>Current: 0 Pi</strong></span>
+    <span><strong>Goal: 1.000.000 Pi</strong></span>
   </div>
 
   <div class="progress">
     <div class="progress-fill"></div>
   </div>
 
-  <p style="font-size:0.85rem; margin-bottom: 20px;">The counter refreshes daily</p>
+  <p style="font-size:0.85rem; margin-bottom: 20px;">🔄 The counter refreshes every day ⏳</p>
 
   <div class="info-section">
     <div class="info-box">
       <div style="font-size:2rem;">⚖️</div>
       <h3>Why exactly 1 Pi?</h3>
-      <p>A small contribution from everyone can create a huge result.</p>
+      <p>1 Pi from you, 1 life changed. Every small gift counts.</p>
     </div>
     <div class="info-box">
-      <div style="font-size:2rem;">⭐</div>
-      <h3>What does it mean to be a Pillioner?</h3>
-      <p>A person who contributed to the goal of one million Pi</p>
+      <div style="font-size:2rem;">🚀</div>
+      <h3>What does it mean to be a Pillioner?</h3> Join the mission and make a difference.</p>
     </div>
     <div class="info-box">
       <div style="font-size:2rem;">📈</div>
       <h3>Follow community growth</h3>
-      <p>Daily goal updates.</p>
+      <p>Watch 1,000,000 Pi come together</p>
     </div>
   </div>
 
-  <div class="wallet-box">
-    <div class="wallet-header">
-      <span>Wallet address</span>
-      <button class="copy-btn" onclick="copyAddress()">Copy</button>
+  <div class="wallet-box" id="wallet">
+    <div id="wallet-address" class="wallet-address" onclick="copyAddress()">
+      GAL7X7QK7YZ5UCHDOOCWDJVIY37XCOTZKMHKQLUNQM7UEY3PXDMR652Z
     </div>
-    <div id="wallet-address" class="wallet-address">GAL7X7QK7YZ5UCHDOOCWDJVIY37XCOTZKMHKQLUNQM7UEY3PXDMR652Z </div>
-    <p style="font-size:0.9rem;">Scan the code or copy the address and donate from your Pi Wallet.</p>
+
+    <button class="copy-btn" style="display:block; margin: 10px auto;" onclick="copyAddress()">
+      <b>Copy Wallet Address</b>
+    </button>
+
+    <p style="font-size:0.9rem;">OR Scan the Pi QR code and donate from your Pi Wallet.</p>
     <img src="qr-code.png" alt="QR kod" style="width:400px; max-width:60%; margin: 0 auto 20px; display: block;">
     <div id="copy-message" class="message"></div>
   </div>
 
+  <!-- === POPUP HTML === -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup-box">
+      <h2>✔️ Address copied!</h2>
+      <p>
+        Pi wallet address has been successfully copied!  
+        Go to your Pi Wallet and donate 1 Pi (or more 🙏).
+      </p>
+      <p><strong>Steps:</strong><br>
+        Pi Browser app ➡️ Wallet ➡️ Unlock your Pi wallet ➡️ Pay / Request ➡️ Manually Add Wallet Address ➡️ Enter 1 Pi (or more) and Paste Wallet Address ➡️ Click Send button
+      </p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <!-- === FOOTER === -->
+  <footer class="footer">
+    <p>© 2025 Pillioner. All rights reserved. | Contact: <a href="mailto:pillioner@yahoo.com">pillioner@yahoo.com</a></p>
+  </footer>
+
   <script>
-    const current = 12345;
+    const current = 2;
     const goal = 1000000;
 
     window.addEventListener("load", () => {
       const fill = document.querySelector(".progress-fill");
       const currentText = document.getElementById("current-amount");
-      let progress = 0;
-      let amount = 0;
-      const targetProgress = (current / goal) * 100;
-      const duration = 2000; // 2 sekunde
+
+      const duration = 3000;
       const fps = 60;
       const steps = duration / (1000 / fps);
       let step = 0;
 
       const animate = setInterval(() => {
         step++;
-        progress = (targetProgress / steps) * step;
-        amount = Math.floor((current / steps) * step);
+        let amount;
 
-        if (progress >= targetProgress) {
-          progress = targetProgress;
-          amount = current;
-          clearInterval(animate);
+        if (step <= steps / 2) {
+          // 0 -> goal
+          amount = Math.floor((goal / (steps/2)) * step);
+        } else {
+          // goal -> current
+          const stepBack = step - steps/2;
+          amount = Math.floor(goal - ((goal - current) / (steps/2)) * stepBack);
         }
 
+        // Progress bar track curernt amount
+        const progress = (amount / goal) * 100;
+
         fill.style.width = progress + "%";
-        currentText.textContent = `Current: ${amount.toLocaleString()} Pi`;
+        currentText.innerHTML = `<strong>Current: ${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} Pi</strong>`;
+
+        if (step >= steps) clearInterval(animate);
       }, 1000 / fps);
     });
 
-    function copyAddress() {
-      const address = document.getElementById('wallet-address').textContent;
+    function copyAddress(event) {
+      if (event) event.stopPropagation();
+      const address = document.getElementById('wallet-address').textContent.trim();
       navigator.clipboard.writeText(address).then(() => {
-        const msg = document.getElementById('copy-message');
-        msg.textContent = 'Address copied successfully!';
-        msg.className = 'message success';
-        msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+        openPopup();
       }).catch(() => {
         const msg = document.getElementById('copy-message');
         msg.textContent = 'Error while copying!';
@@ -234,6 +342,21 @@
         msg.style.display = 'block';
         setTimeout(() => { msg.style.display = 'none'; }, 2000);
       });
+    }
+
+    function scrollToWallet() {
+      const wallet = document.getElementById('wallet');
+      wallet.scrollIntoView({ behavior: 'smooth' });
+      wallet.classList.add('highlight');
+      setTimeout(() => wallet.classList.remove('highlight'), 2500);
+    }
+
+    function openPopup() {
+      document.getElementById("popup").style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
     }
   </script>
 </body>
